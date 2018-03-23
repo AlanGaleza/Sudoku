@@ -1,7 +1,13 @@
+import services.SudokuGame;
+
 public class SudokuRunner {
     public static void main(String args[]) {
-        boolean isFinished = false;
+        boolean isGameFinished = false;
 
-        while()
+        while(!isGameFinished) {
+            SudokuGame theGame = new SudokuGame();
+
+            isGameFinished = theGame.resolveSudoku();
+        }
     }
 }
