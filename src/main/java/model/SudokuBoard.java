@@ -2,37 +2,58 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class SudokuBoard {
-    private SudokuRow sudokuRow;
+public class SudokuBoard implements Cloneable{
     private List<SudokuRow> board = new ArrayList<>(9);
 
     public SudokuBoard() {
-            List<Boolean> b = IntStream.range(1, 10)
-                    .map(n -> board.add(new SudokuRow()))
-                    .collect(Collectors.toList());
+        IntStream.range(0, 9)
+                .forEach(n -> this.board.add(new SudokuRow()));
     }
-/*
-this.registers = IntStream.range(0, this.numberOfSuppliers)
-            .map(i -> {
-        Supplier supplier = new Supplier();
-        supplier.setSupplierNumber(i);
-        supplier.setMaterials(new ArrayList<Warehouse>());
-        return supplier;
-    })
-
-            .collect(Collectors.toList());
-*/
 
     public List<SudokuRow> getBoard() {
         return board;
     }
 
-    /*    public Board deepCopy1() throws CloneNotSupportedException {
-        Board clonedBoard = super.clone();
-        clonedBoard.lists = lists.stream().map(tasksList -> new TasksList(tasksList.getName(), tasksList.getTasks().stream().map(task -> new Task(task.getName())).collect(Collectors.toList()))).collect(Collectors.toSet());
+    public void setBoard(List<SudokuRow> board) {
+        this.board = board;
+    }
+
+    public SudokuBoard shallowCopy() throws CloneNotSupportedException {
+        return (SudokuBoard)super.clone();
+    }
+
+    public SudokuBoard deepCopy() throws CloneNotSupportedException {
+        SudokuBoard clonedBoard = (SudokuBoard)super.clone();
+        clonedBoard.board = board.stream()
+                .map(row -> new SudokuRow(row.getElements().stream()
+                        .map(element -> new SudokuElement())
+                        .collect(Collectors.toList())))
+                .collect(Collectors.toList());
         return clonedBoard;
-    }*/
+    }
+
+    @Override
+    public String toString() {
+        return board.stream()
+                .map(n -> "\n" + n.toString())
+                .collect(Collectors.joining());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SudokuBoard that = (SudokuBoard) o;
+        return Objects.equals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(board);
+    }
 }

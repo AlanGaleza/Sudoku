@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SudokuElement {
-    public static int EMPTY = -1;
+    private static int EMPTY = -1;
     private int value;
     private List<Integer> possibleValue = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -31,7 +31,7 @@ public class SudokuElement {
 
     @Override
     public String toString() {
-        return value == EMPTY ? " * |" : " " + value + " |";
+        return value == EMPTY ? EMPTY + "|" : " " + value + "|";
     }
 
     @Override

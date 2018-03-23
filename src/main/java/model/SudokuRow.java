@@ -4,35 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SudokuRow {
 
-    private List<SudokuElement> row = new ArrayList<>(9);
-    private SudokuElement sudokuElement;
+     private List<SudokuElement> elements = new ArrayList<>(9);
 
     public SudokuRow() {
+        IntStream.range(0, 9)
+                .forEach(n -> this.elements.add(n, new SudokuElement()));
     }
 
-    public List<SudokuElement> getRow() {
-        return row;
+    public SudokuRow(List<SudokuElement> elements) {
+        this.elements = elements;
+    }
+
+    public List<SudokuElement> getElements() {
+        return elements;
     }
 
     public void setRow(List<SudokuElement> row) {
-        this.row = row;
-    }
-
-    public SudokuElement getSudokuElement() {
-        return sudokuElement;
-    }
-
-    public void setSudokuElement(SudokuElement sudokuElement) {
-        this.sudokuElement = sudokuElement;
+        this.elements = row;
     }
 
     @Override
     public String toString(){
-        return row.stream()
-                .map(n -> n.toString())
+        return elements.stream()
+                .map(SudokuElement::toString)
                 .collect(Collectors.joining());
     }
 
@@ -41,13 +39,12 @@ public class SudokuRow {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SudokuRow sudokuRow = (SudokuRow) o;
-        return Objects.equals(row, sudokuRow.row) &&
-                Objects.equals(sudokuElement, sudokuRow.sudokuElement);
+        return Objects.equals(elements, sudokuRow.elements);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(row, sudokuElement);
+        return Objects.hash(elements);
     }
 }
