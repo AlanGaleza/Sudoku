@@ -1,13 +1,11 @@
 package model;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class SudokuElement {
     private static int EMPTY = -1;
     private int value;
-    private List<Integer> possibleValue = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private Set<Integer> possibleValue = new HashSet(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
     public SudokuElement(int value) {
         this.value = value;
@@ -25,7 +23,7 @@ public class SudokuElement {
         this.value = value;
     }
 
-    public List<Integer> getPossibleValue() {
+    public Set<Integer> getPossibleValue() {
         return possibleValue;
     }
 

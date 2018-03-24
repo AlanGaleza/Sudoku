@@ -3,7 +3,14 @@ import model.SudokuElement;
 import model.SudokuRow;
 import org.junit.Before;
 import org.junit.Test;
+import services.DataValidator;
+import services.SudokuGame;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
@@ -131,5 +138,51 @@ public class SudokuTestSuite {
         assertThat(deepCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(brd.getBoard().get(1).getElements().get(1).getValue());
     }
 
+    @Test
+    public void inputDataTest() {
+        //Given
+        SudokuGame sudokuGame = new SudokuGame();
+        System.out.println("Date input is 4,5,9");
+        String userInput = "4,5,9";
 
+        int[] inputList = Arrays.stream(userInput.split(","))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        //When
+        sudokuBoard.getBoard().get(inputList[0]).getElements().get(inputList[1]).setValue(inputList[2]);
+        int result =  sudokuBoard.getBoard().get(inputList[0]).getElements().get(inputList[1]).getValue();
+
+        System.out.println(sudokuBoard);
+        //Then
+        assertThat(9).isEqualTo(result);
+    }
+
+    @Test
+    public void validateRowDataTest() {
+        SudokuGame sudokuGame = new SudokuGame();
+        DataValidator dataValidator = new DataValidator(sudokuBoard);
+
+        System.out.println("Board before inputs and validating\n" + sudokuBoard);
+
+        sudokuGame.dataSet(1, 1, 9);
+
+        System.out.println("Board after changes and validating\n" + sudokuBoard);
+
+        System.out.println("Trying to put value 9 to this same row");
+
+        sudokuGame.dataSet(1,1,9);
+
+        System.out.println("Trying to put value 9 to same row but different column");
+
+        sudokuGame.dataSet(1,2,10);
+        System.out.println("Trying to put value 8 to same row but different column\n");
+
+        sudokuGame.dataSet(1,0,8);
+        System.out.println("Board after changes and validating\n" + sudokuBoard);
+
+
+
+        }
 }
+
