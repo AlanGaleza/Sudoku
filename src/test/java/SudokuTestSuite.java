@@ -1,7 +1,4 @@
 import model.SudokuBoard;
-import model.SudokuElement;
-import model.SudokuRow;
-import org.junit.Before;
 import org.junit.Test;
 import services.DataValidator;
 import services.SudokuGame;
@@ -9,91 +6,40 @@ import services.SudokuGame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class SudokuTestSuite {
 
-    public static SudokuBoard sudokuBoard = new SudokuBoard();
-
-    @Before
-    public void boardReturn() {
-        SudokuRow sudokuRow1 = new SudokuRow();
-        SudokuRow sudokuRow2 = new SudokuRow();
-        SudokuRow sudokuRow3 = new SudokuRow();
-        SudokuRow sudokuRow4 = new SudokuRow();
-        SudokuRow sudokuRow5 = new SudokuRow();
-        SudokuRow sudokuRow6 = new SudokuRow();
-        SudokuRow sudokuRow7 = new SudokuRow();
-        SudokuRow sudokuRow8 = new SudokuRow();
-        SudokuRow sudokuRow9 = new SudokuRow();
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow1.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow2.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow3.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow4.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow5.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow6.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow7.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow8.getElements().get(n).setValue(n+1));
-
-        IntStream.range(0, 9)
-                .forEach(n -> sudokuRow9.getElements().get(n).setValue(n+1));
-
-        sudokuBoard.getBoard().set(0, sudokuRow1);
-        sudokuBoard.getBoard().set(1, sudokuRow2);
-        sudokuBoard.getBoard().set(2, sudokuRow3);
-        sudokuBoard.getBoard().set(3, sudokuRow4);
-        sudokuBoard.getBoard().set(4, sudokuRow5);
-        sudokuBoard.getBoard().set(5, sudokuRow6);
-        sudokuBoard.getBoard().set(6, sudokuRow7);
-        sudokuBoard.getBoard().set(7, sudokuRow8);
-        sudokuBoard.getBoard().set(8, sudokuRow9);
-    }
-
     @Test
-    public void SudokuBoardPrintTest () {
+    public void SudokuBoardSizeTest () {
         //Given
-        SudokuBoard sudokuBrd = sudokuBoard;
+        SudokuBoard sudokuBoard = new SudokuBoard();
 
-
-        System.out.println(sudokuBoard);
         //When
-        int boardSize = sudokuBoard.getBoard().size();
+        double boardSize = IntStream.range(0, 9)
+                .mapToDouble(n -> sudokuBoard.getBoard().size())
+                .sum();
+
+        double rowSize = sudokuBoard.getBoard().get(0).getElements().size();
 
         //Then
-        assertThat(boardSize).isEqualTo(9);
+        assertThat(boardSize).isEqualTo(81);
+        assertThat(rowSize).isEqualTo(9);
     }
 
     @Test
     public void sudokuShallowCloneTest() throws CloneNotSupportedException {
         //Given
-        SudokuBoard brd = sudokuBoard;
+        SudokuBoard sudokuBoard = new SudokuBoard();
 
         //When
         SudokuBoard shallowCloneSudokuBoard = null;
-        System.out.println("Original board\n" + brd);
+        System.out.println("Original board\n" + sudokuBoard);
 
         try {
-            shallowCloneSudokuBoard = brd.shallowCopy();
+            shallowCloneSudokuBoard = sudokuBoard.shallowCopy();
 
         } catch (CloneNotSupportedException e) {
             System.out.println("ShallowClone ERROR!");
@@ -106,21 +52,21 @@ public class SudokuTestSuite {
 
         //Then
         assertThat(shallowCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(-1);
-        assertThat(brd.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(-1);
-        assertThat(shallowCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(brd.getBoard().get(1).getElements().get(1).getValue());
+        assertThat(sudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(-1);
+        assertThat(shallowCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(sudokuBoard.getBoard().get(1).getElements().get(1).getValue());
     }
 
     @Test
     public void sudokuDeepCloneTest() throws CloneNotSupportedException {
         //Given
-        SudokuBoard brd = sudokuBoard;
+        SudokuBoard sudokuBoard = new SudokuBoard();
 
         //When
         SudokuBoard deepCloneSudokuBoard = null;
-        System.out.println("Original board\n" + brd);
+        System.out.println("Original board\n" + sudokuBoard);
 
         try {
-            deepCloneSudokuBoard = brd.deepCopy();
+            deepCloneSudokuBoard = sudokuBoard.deepCopy();
 
         } catch (CloneNotSupportedException e) {
             System.out.println("DeepClone ERROR!");
@@ -130,59 +76,81 @@ public class SudokuTestSuite {
         System.out.println("Changing board value at Original board 2nd row 2nd line to -1 value");
         sudokuBoard.getBoard().get(1).getElements().get(1).setValue(-1);
         System.out.println("\nDeepClone board after changing Original board\n" + deepCloneSudokuBoard);
-        System.out.println("\nOriginal board after changes\n" + brd);
+        System.out.println("\nOriginal board after changes\n" + sudokuBoard);
 
         //Then
         assertThat(deepCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(-1);
-        assertThat(brd.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(-1);
-        assertThat(deepCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(brd.getBoard().get(1).getElements().get(1).getValue());
+        assertThat(sudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(-1);
+        assertThat(deepCloneSudokuBoard.getBoard().get(1).getElements().get(1).getValue()).isEqualTo(sudokuBoard.getBoard().get(1).getElements().get(1).getValue());
     }
 
     @Test
-    public void inputDataTest() {
+    public void dataSetTest() {
         //Given
-        SudokuGame sudokuGame = new SudokuGame();
-        System.out.println("Date input is 4,5,9");
-        String userInput = "4,5,9";
+        boolean squareValueTest = true;
+        String userInput = "1,1,1";
+
+        SudokuBoard sudokuBoard = new SudokuBoard();
+        SudokuGame sudokuGame = new SudokuGame(new DataValidator(), sudokuBoard);
 
         int[] inputList = Arrays.stream(userInput.split(","))
                 .mapToInt(Integer::parseInt)
                 .toArray();
+        //System.out.println(sudokuGame.getSudokuBoard().toString());
 
         //When
-        sudokuBoard.getBoard().get(inputList[0]).getElements().get(inputList[1]).setValue(inputList[2]);
+        sudokuGame.dataSet(inputList[0], inputList[1], inputList[2]);
         int result =  sudokuBoard.getBoard().get(inputList[0]).getElements().get(inputList[1]).getValue();
 
-        System.out.println(sudokuBoard);
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                squareValueTest = sudokuGame.dataSet(r, c, inputList[2]);
+            }
+        }
+
         //Then
-        assertThat(9).isEqualTo(result);
+        assertThat(1).isEqualTo(result);
+        assertThat(squareValueTest).isFalse();
     }
 
     @Test
-    public void validateRowDataTest() {
-        SudokuGame sudokuGame = new SudokuGame();
-        DataValidator dataValidator = new DataValidator(sudokuBoard);
+    public void validateInputTest() {
+        //Given
+        SudokuBoard sudokuBoard = new SudokuBoard();
+        DataValidator dataValidator = new DataValidator();
 
-        System.out.println("Board before inputs and validating\n" + sudokuBoard);
+        //When
+        boolean trueResult = dataValidator.validateInput(1,1,2, sudokuBoard);
+        boolean falseResult = dataValidator.validateInput(1,1,-1, sudokuBoard);
 
-        sudokuGame.dataSet(1, 1, 9);
+        //Then
+        assertThat(trueResult).isTrue();
+        assertThat(falseResult).isFalse();
+    }
 
-        System.out.println("Board after changes and validating\n" + sudokuBoard);
+    @Test
+    public void validateUserInputTest() {
+        //Given
+        DataValidator dataValidator = new DataValidator();
+        String userCorrectValuesInput = "1,2,3";
+        String userIncorrectValueInput = "0,0,0";
 
-        System.out.println("Trying to put value 9 to this same row");
+        //When
+        boolean correctValueResult = dataValidator.validateUserInput(userCorrectValuesInput);
+        boolean incorrectValueResult = dataValidator.validateUserInput(userIncorrectValueInput);
 
-        sudokuGame.dataSet(1,1,9);
+        //Then
+        assertThat(correctValueResult).isTrue();
+        assertThat(incorrectValueResult).isFalse();
+    }
 
-        System.out.println("Trying to put value 9 to same row but different column");
-
-        sudokuGame.dataSet(1,2,10);
-        System.out.println("Trying to put value 8 to same row but different column\n");
-
-        sudokuGame.dataSet(1,0,8);
-        System.out.println("Board after changes and validating\n" + sudokuBoard);
+    @Test
+    public void e(){
+        int value = 1;
+        List<Integer> e = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
 
-
-        }
+        System.out.println(e);
+    }
 }
 

@@ -7,10 +7,10 @@ public class SudokuRunner {
         SudokuBoard sudokuBoard = new SudokuBoard();
 
         while(!isGameFinished) {
-            SudokuGame theGame = new SudokuGame();
+            //SudokuGame theGame = new SudokuGame();
 
 
-            isGameFinished = theGame.resolveSudoku();
+            //isGameFinished = theGame.resolveSudoku();
         }
     }
 }

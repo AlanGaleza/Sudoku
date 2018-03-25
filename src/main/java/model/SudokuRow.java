@@ -8,14 +8,14 @@ import java.util.stream.IntStream;
 
 public class SudokuRow {
 
-     private List<SudokuElement> elements = new ArrayList<>(9);
+    private List<SudokuElement> elements = new ArrayList<>(9);
 
-    public SudokuRow() {
+    protected SudokuRow() {
         IntStream.range(0, 9)
                 .forEach(n -> this.elements.add(n, new SudokuElement()));
     }
 
-    public SudokuRow(List<SudokuElement> elements) {
+    protected SudokuRow(List<SudokuElement> elements) {
         this.elements = elements;
     }
 
