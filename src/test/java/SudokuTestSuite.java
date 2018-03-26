@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class SudokuTestSuite {
 
+    static int counter = 0;
     @Test
     public void SudokuBoardSizeTest () {
         //Given
@@ -145,12 +146,18 @@ public class SudokuTestSuite {
     }
 
     @Test
-    public void e(){
-        int value = 1;
-        List<Integer> e = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    public void resolveSudokuTest(){
+        //Given
+        SudokuBoard sudokuBoard = new SudokuBoard();
+        DataValidator dataValidator = new DataValidator();
+        SudokuGame sudokuGame = new SudokuGame(dataValidator, sudokuBoard);
+
+        sudokuGame.resolveSudoku();
+
+        System.out.println(sudokuBoard);
 
 
-        System.out.println(e);
+
     }
 }
 

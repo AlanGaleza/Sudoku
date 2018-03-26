@@ -16,12 +16,20 @@ public class SudokuElement {
         this.value = EMPTY;
     }
 
+    public boolean availableValues(int value) {
+        return possibleValue.stream().anyMatch((n -> n == value));
+    }
     public void removeValueFromPossibleValueList(int value) {
-        if (possibleValue.stream().anyMatch(n -> n == value)) {
-            IntStream.range(0, possibleValue.size()-1)
-                    .filter(n -> possibleValue.get(n) == value)
+        if (availableValues(value)) {
+            for (int i = 0; i < possibleValue.size(); i++) {
+                if (possibleValue.get(i) == value) {
+                    possibleValue.remove(i);
+                }
+            }
+/*            IntStream.range(1, possibleValue.size())
+                    .filter(n -> possibleValue.get(n-1) == value)
                     .map(possibleValue::remove)
-                    .count();
+                    .count();*/
         }
     }
 

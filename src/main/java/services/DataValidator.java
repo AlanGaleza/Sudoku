@@ -9,7 +9,11 @@ public class DataValidator {
     private boolean validateInRowData (int row, int column, int value, SudokuBoard sudokuBoard) {
         for (int i = 0; i < 9; i++) {
             if (sudokuBoard.getBoard().get(row).getElements().get(i).getValue() == value || sudokuBoard.getBoard().get(i).getElements().get(column).getValue() == value) {
+                //System.out.println("Validate in Row Data Error!");
                 return false;
+            } else {
+                sudokuBoard.getBoard().get(row).getElements().get(i).removeValueFromPossibleValueList(value);
+                sudokuBoard.getBoard().get(i).getElements().get(column).removeValueFromPossibleValueList(value);
             }
         }
         return true;
@@ -20,6 +24,8 @@ public class DataValidator {
             for (int c = 0; c < 3; c++) {
                 if (sudokuBoard.getBoard().get(r + (row / 3) * 3 ).getElements().get(c + (column / 3) * 3).getValue() == value) {
                     return false;
+                } else {
+                    sudokuBoard.getBoard().get(r + (row / 3) * 3 ).getElements().get(c + (column / 3) * 3).removeValueFromPossibleValueList(value);
                 }
             }
         }
