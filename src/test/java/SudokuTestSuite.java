@@ -151,13 +151,12 @@ public class SudokuTestSuite {
         SudokuBoard sudokuBoard = new SudokuBoard();
         DataValidator dataValidator = new DataValidator();
         SudokuGame sudokuGame = new SudokuGame(dataValidator, sudokuBoard);
+        int counter = 0;
 
-        sudokuGame.resolveSudoku();
-
-        System.out.println(sudokuBoard);
-
-
-
+        while(!sudokuGame.resolveSudoku()) {
+            counter++;
+        }
+        System.out.println(counter);
     }
 }
 

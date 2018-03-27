@@ -9,7 +9,6 @@ public class DataValidator {
     private boolean validateInRowData (int row, int column, int value, SudokuBoard sudokuBoard) {
         for (int i = 0; i < 9; i++) {
             if (sudokuBoard.getBoard().get(row).getElements().get(i).getValue() == value || sudokuBoard.getBoard().get(i).getElements().get(column).getValue() == value) {
-                //System.out.println("Validate in Row Data Error!");
                 return false;
             } else {
                 sudokuBoard.getBoard().get(row).getElements().get(i).removeValueFromPossibleValueList(value);
