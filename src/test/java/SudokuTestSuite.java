@@ -1,8 +1,10 @@
 import model.SudokuBoard;
 import org.junit.Test;
 import services.DataValidator;
-import services.SudokuGame;
+import services.SudokuGame1;
+//import services.SudokuGame;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 public class SudokuTestSuite {
 
     static int counter = 0;
-    @Test
+ /*   @Test
     public void SudokuBoardSizeTest () {
         //Given
         SudokuBoard sudokuBoard = new SudokuBoard();
@@ -119,10 +121,11 @@ public class SudokuTestSuite {
         //Given
         SudokuBoard sudokuBoard = new SudokuBoard();
         DataValidator dataValidator = new DataValidator();
+        SudokuGame sudokuGame = new SudokuGame(dataValidator, sudokuBoard);
 
         //When
-        boolean trueResult = dataValidator.validateInput(1,1,2, sudokuBoard);
-        boolean falseResult = dataValidator.validateInput(1,1,-1, sudokuBoard);
+        boolean trueResult = sudokuGame.validateInput(1,1,2);
+        boolean falseResult = sudokuGame.validateInput(1,1,-1);
 
         //Then
         assertThat(trueResult).isTrue();
@@ -151,12 +154,44 @@ public class SudokuTestSuite {
         SudokuBoard sudokuBoard = new SudokuBoard();
         DataValidator dataValidator = new DataValidator();
         SudokuGame sudokuGame = new SudokuGame(dataValidator, sudokuBoard);
-        int counter = 0;
 
-        while(!sudokuGame.resolveSudoku()) {
-            counter++;
-        }
-        System.out.println(counter);
+
+
+            sudokuGame.resolveSudoku();
+
+
+
+    }*/
+
+    @Test
+    public void getAllPossibleValuesTest() {
+        //Given
+        SudokuBoard sudokuBoard = new SudokuBoard();
+        SudokuGame1 sudokuGame1 = new SudokuGame1(sudokuBoard);
+
+        //When
+        sudokuBoard.getBoard().get(1).getElements().get(1).setValue(1);
+        sudokuBoard.getBoard().get(1).getElements().get(4).setValue(5);
+        sudokuBoard.getBoard().get(4).getElements().get(1).setValue(6);
+
+        List<Integer> result = sudokuGame1.getAllPossibleValues(1, 1);
+        result.stream().forEach(System.out::println);
+
+        //Then
+        assertThat(6).isEqualTo(result.size());
+        assertThat(2).isEqualTo(result.get(0));
+
+    }
+
+    @Test
+    public void ttt() {
+
+    SudokuBoard sudokuBoard = new SudokuBoard();
+    SudokuGame1 sudokuGame1 = new SudokuGame1();
+
+    sudokuGame1.sudokuSolver1(sudokuBoard);
+
+
     }
 }
 

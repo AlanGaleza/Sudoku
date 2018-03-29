@@ -5,35 +5,8 @@ import model.SudokuBoard;
 import java.util.Arrays;
 
 public class DataValidator {
+    SudokuBoard sudokuBoard =  new SudokuBoard();
 
-    private boolean validateInRowData (int row, int column, int value, SudokuBoard sudokuBoard) {
-        for (int i = 0; i < 9; i++) {
-            if (sudokuBoard.getBoard().get(row).getElements().get(i).getValue() == value || sudokuBoard.getBoard().get(i).getElements().get(column).getValue() == value) {
-                return false;
-            } else {
-                sudokuBoard.getBoard().get(row).getElements().get(i).removeValueFromPossibleValueList(value);
-                sudokuBoard.getBoard().get(i).getElements().get(column).removeValueFromPossibleValueList(value);
-            }
-        }
-        return true;
-    }
-
-    private boolean validateInSquareData (int row, int column, int value, SudokuBoard sudokuBoard) {
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                if (sudokuBoard.getBoard().get(r + (row / 3) * 3 ).getElements().get(c + (column / 3) * 3).getValue() == value) {
-                    return false;
-                } else {
-                    sudokuBoard.getBoard().get(r + (row / 3) * 3 ).getElements().get(c + (column / 3) * 3).removeValueFromPossibleValueList(value);
-                }
-            }
-        }
-        return true;
-    }
-
-    public boolean validateInput(int row, int column, int value, SudokuBoard sudokuBoard) {
-        return validateInRowData(row, column, value, sudokuBoard) && validateInSquareData(row, column, value, sudokuBoard);
-    }
 
     public boolean validateUserInput (String userInput) throws NumberFormatException{
         int[] inputList;
