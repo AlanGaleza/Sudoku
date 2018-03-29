@@ -168,14 +168,25 @@ public class SudokuTestSuite {
         //Given
         SudokuBoard sudokuBoard = new SudokuBoard();
         SudokuGame1 sudokuGame1 = new SudokuGame1(sudokuBoard);
+        System.out.println(sudokuBoard);
 
         //When
         sudokuBoard.getBoard().get(1).getElements().get(1).setValue(1);
         sudokuBoard.getBoard().get(1).getElements().get(4).setValue(5);
         sudokuBoard.getBoard().get(4).getElements().get(1).setValue(6);
+        sudokuBoard.getBoard().get(2).getElements().get(0).setValue(7);
+        System.out.println(sudokuBoard);
 
-        List<Integer> result = sudokuGame1.getAllPossibleValues(1, 1);
-        result.stream().forEach(System.out::println);
+        List<Integer> result = sudokuGame1.getAllPossibleValues(1, 1, sudokuBoard);
+        List<Integer> result1 = sudokuGame1.getAllPossibleValues(1, 4, sudokuBoard);
+        List<Integer> result2 = sudokuGame1.getAllPossibleValues(4, 1, sudokuBoard);
+        //List<Integer> result2 = sudokuGame1.getAllPossibleValues(4, 1);
+        System.out.println(".........");
+        result.stream().forEach(System.out::print);
+        System.out.println(".........");
+        result1.stream().forEach(System.out::print);
+        System.out.println(".........");
+        result2.stream().forEach(System.out::print);
 
         //Then
         assertThat(6).isEqualTo(result.size());
@@ -189,8 +200,48 @@ public class SudokuTestSuite {
     SudokuBoard sudokuBoard = new SudokuBoard();
     SudokuGame1 sudokuGame1 = new SudokuGame1();
 
-    sudokuGame1.sudokuSolver1(sudokuBoard);
+    sudokuBoard.getBoard().get(0).getElements().get(1).setValue(2);
+    sudokuBoard.getBoard().get(0).getElements().get(3).setValue(5);
+    sudokuBoard.getBoard().get(0).getElements().get(5).setValue(1);
+    sudokuBoard.getBoard().get(0).getElements().get(7).setValue(9);
 
+    sudokuBoard.getBoard().get(1).getElements().get(0).setValue(8);
+    sudokuBoard.getBoard().get(1).getElements().get(3).setValue(2);
+    sudokuBoard.getBoard().get(1).getElements().get(5).setValue(3);
+    sudokuBoard.getBoard().get(1).getElements().get(8).setValue(6);
+
+    sudokuBoard.getBoard().get(2).getElements().get(1).setValue(3);
+    sudokuBoard.getBoard().get(2).getElements().get(4).setValue(6);
+    sudokuBoard.getBoard().get(2).getElements().get(7).setValue(7);
+
+    sudokuBoard.getBoard().get(3).getElements().get(2).setValue(1);
+    sudokuBoard.getBoard().get(3).getElements().get(6).setValue(6);
+
+    sudokuBoard.getBoard().get(4).getElements().get(0).setValue(5);
+    sudokuBoard.getBoard().get(4).getElements().get(1).setValue(4);
+    sudokuBoard.getBoard().get(4).getElements().get(7).setValue(1);
+    sudokuBoard.getBoard().get(4).getElements().get(8).setValue(9);
+
+    sudokuBoard.getBoard().get(5).getElements().get(2).setValue(2);
+    sudokuBoard.getBoard().get(5).getElements().get(6).setValue(7);
+
+    sudokuBoard.getBoard().get(6).getElements().get(1).setValue(9);
+    sudokuBoard.getBoard().get(6).getElements().get(4).setValue(3);
+    sudokuBoard.getBoard().get(6).getElements().get(7).setValue(8);
+
+    sudokuBoard.getBoard().get(7).getElements().get(0).setValue(2);
+    sudokuBoard.getBoard().get(7).getElements().get(3).setValue(8);
+    sudokuBoard.getBoard().get(7).getElements().get(5).setValue(4);
+    sudokuBoard.getBoard().get(7).getElements().get(8).setValue(7);
+
+    sudokuBoard.getBoard().get(8).getElements().get(1).setValue(1);
+    sudokuBoard.getBoard().get(8).getElements().get(3).setValue(9);
+    sudokuBoard.getBoard().get(8).getElements().get(5).setValue(7);
+    sudokuBoard.getBoard().get(8).getElements().get(7).setValue(6);
+
+    //System.out.println(sudokuBoard);
+
+    sudokuGame1.sudokuSolver1(sudokuBoard);
 
     }
 }

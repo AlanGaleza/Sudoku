@@ -2,7 +2,9 @@ package services;
 
 import model.SudokuBoard;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,7 +22,7 @@ public class SudokuGame1 {
         return true;
     }
 
-    public List<Integer> getPossibleInSquareValue(int row, int column) {
+    public List<Integer> getPossibleInSquareValue(int row, int column, SudokuBoard sudokuBoard) {
         List<Integer> possibleValues = sudokuBoard.getBoard().get(row).getElements().get(column).getPossibleValue();
         int rowNumber = squareRowNumber(row);
         int columnNumber = squareColumnNumber(column);
@@ -35,7 +37,7 @@ public class SudokuGame1 {
         return new ArrayList<>(possibleValues);
     }
 
-    public List<Integer> getPossibleRowValues(int row, int column) {
+    public List<Integer> getPossibleRowValues(int row, int column, SudokuBoard sudokuBoard) {
         List<Integer> possibleRowValues = sudokuBoard.getBoard().get(row).getElements().get(column).getPossibleValue();
         for (int c = 0; c < 9; c++) {
             int value = sudokuBoard.getBoard().get(row).getElements().get(c).getValue();
@@ -46,7 +48,7 @@ public class SudokuGame1 {
         return new ArrayList<>(possibleRowValues);
     }
 
-    public List<Integer> getPossibleColumnValues(int row, int column) {
+    public List<Integer> getPossibleColumnValues(int row, int column, SudokuBoard sudokuBoard) {
         List<Integer> possibleColumnValues = sudokuBoard.getBoard().get(row).getElements().get(column).getPossibleValue();
         for (int r = 0; r < 9; r++) {
             int value = sudokuBoard.getBoard().get(r).getElements().get(column).getValue();
@@ -57,11 +59,11 @@ public class SudokuGame1 {
         return new ArrayList<>(possibleColumnValues);
     }
 
-    public List<Integer> getAllPossibleValues(int row, int column) {
+    public List<Integer> getAllPossibleValues(int row, int column, SudokuBoard sudokuBoard) {
         List<Integer> allPossibleValues = sudokuBoard.getBoard().get(row).getElements().get(column).getPossibleValue();
-        allPossibleValues.retainAll(getPossibleInSquareValue(row, column));
-        allPossibleValues.retainAll(getPossibleRowValues(row, column));
-        allPossibleValues.retainAll(getPossibleColumnValues(row, column));
+        allPossibleValues.retainAll(getPossibleInSquareValue(row, column, sudokuBoard));
+        allPossibleValues.retainAll(getPossibleRowValues(row, column, sudokuBoard));
+        allPossibleValues.retainAll(getPossibleColumnValues(row, column, sudokuBoard));
         return new ArrayList<>(allPossibleValues);
     }
 
@@ -86,23 +88,36 @@ public class SudokuGame1 {
     public void sudokuSolver1(SudokuBoard sudokuBoard) {
         int i = 0;
         int j = 0;
-        if ((isFull(sudokuBoard))) {
+        boolean stop = false;
+        List<Integer> possibilities;
+        if (isFull(sudokuBoard)) {
             System.out.println(sudokuBoard);
+            System.out.println("KONIEC");
+            return;
         } else {
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
                     if(sudokuBoard.getBoard().get(r).getElements().get(c).getValue() == -1) {
                         i = r;
                         j = c;
+                        stop = true;
+                        break;
                     }
+                }
+                if (stop) {
+                    break;
                 }
             }
         }
+        possibilities = getAllPossibleValues(i, j, sudokuBoard);
 
-        if(!getAllPossibleValues(i, j).isEmpty()) {
-            for (int y = 0; y < getAllPossibleValues(i, j).size(); y++) {
-                int value = getAllPossibleValues(i, j).get(y);
-                sudokuBoard.getBoard().get(i).getElements().get(j).setValue(value);
+        System.out.println(i + " , " + j);
+        for (int x = 1; x < 10; x++) {
+            if(!possibilities.isEmpty() && possibilities.contains(x)) {
+                possibilities.stream().forEach(System.out::print);
+                sudokuBoard.getBoard().get(i).getElements().get(j).setValue(x);
+                System.out.println(sudokuBoard);
+                System.out.println("______________________");
                 sudokuSolver1(sudokuBoard);
             }
             sudokuBoard.getBoard().get(i).getElements().get(j).setValue(-1);
