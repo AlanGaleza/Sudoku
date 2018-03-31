@@ -1,5 +1,7 @@
 package model;
 
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +35,13 @@ public class SudokuBoard implements Cloneable{
                         .map(element -> new SudokuElement())
                         .collect(Collectors.toList())))
                 .collect(Collectors.toList());
+
+        for ( int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                int value = board.get(i).getElements().get(j).getValue();
+                clonedBoard.board.get(i).getElements().get(j).setValue(value);
+            }
+        }
         return clonedBoard;
     }
 
