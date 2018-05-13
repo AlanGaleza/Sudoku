@@ -17,17 +17,6 @@ public class SudokuGame {
         this.sudokuBoard = sudokuBoard;
     }
 
-    public boolean isFull(SudokuBoard sudokuBoard) {
-        for (int r = 0; r  < 9; r++) {
-            for (int c = 0; c < 9; c++) {
-                if (sudokuBoard.getBoard().get(r).getElements().get(c).getValue() == -1) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public List<Integer> getPossibleInSquareValue(int row, int column, SudokuBoard sudokuBoard) {
         List<Integer> possibleValues = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
         for(int r = 0; r < 3; r++) {
@@ -71,48 +60,42 @@ public class SudokuGame {
         return new ArrayList<>(allPossibleValues);
     }
 
-    public void sudokuSolver(SudokuBoard sudokuBoard) {
-        int i = 0;
-        int j = 0;
-        boolean stop = false;
-        List<Integer> possibilities;
-        if (isFull(sudokuBoard)) {
-            System.out.println(sudokuBoard);
-            System.out.println("SOLVED");
-            return;
-        } else {
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
-                    if(sudokuBoard.getBoard().get(r).getElements().get(c).getValue() == -1) {
-                        i = r;
-                        j = c;
-                        stop = true;
-                        break;
+    public boolean sudokuSolver(SudokuBoard sudokuBoard, int r, int c) {
+        if (r == 9) {
+            r = 0;
+            if (++c == 9) {
+                System.out.println(sudokuBoard);
+                return true;
+            }
+        }
+
+       // for (int r = x; r < 9; r++) {
+         //   for (int c = y; c < 9; c++) {
+                if(sudokuBoard.getBoard().get(r).getElements().get(c).getValue() == -1) {
+                    //List<Integer> possibilities = getAllPossibleValues(r, c, sudokuBoard);
+                    for (int a: getAllPossibleValues(r, c, sudokuBoard)) {
+                        //System.out.println(r + " , " + c); //LOG
+                        //if(possibilities.contains(x)) {
+                            //possibilities.stream().forEach(System.out::print); // LOG
+                            sudokuBoard.getBoard().get(r).getElements().get(c).setValue(a);
+
+                            //System.out.println(sudokuBoard); //LOG
+                            //System.out.println("______________________"); //LOG
+                            if(sudokuSolver(sudokuBoard, r + 1, c)) {
+                                return true;
+                            }
+                        //}
                     }
+                    //System.out.println("VALUE REMOVED FROM POSSIBILITIES: "); //LOG
+
+                } else {
+                    return sudokuSolver(sudokuBoard,r + 1, c);
                 }
-                if (stop) {
-                    break;
-                }
-            }
-        }
-        possibilities = getAllPossibleValues(i, j, sudokuBoard);
+        sudokuBoard.getBoard().get(r).getElements().get(c).setValue(-1);
+        //System.out.println(sudokuBoard);
+        return false;
+ /*           }
+        }*/
 
-
-        for (int x = 1; x <= 9; x++) {
-            System.out.println(i + " , " + j); //LOG
-            if(possibilities.contains(x)) {
-                possibilities.stream().forEach(System.out::print); // LOG
-                sudokuBoard.getBoard().get(i).getElements().get(j).setValue(x);
-                possibilities.remove(new Integer(x));
-
-                System.out.println(sudokuBoard); //LOG
-                System.out.println("______________________"); //LOG
-                sudokuSolver(sudokuBoard);
-            }
-                System.out.println("VALUE REMOVED FROM POSSIBILITIES: " + x); //LOG
-
-            sudokuBoard.getBoard().get(i).getElements().get(j).setValue(-1);
-            System.out.println("tak teraz wyglada: " + i +" " + j); //LOG
-        }
     }
 }

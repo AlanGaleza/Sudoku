@@ -163,12 +163,12 @@ public class SudokuTestSuite {
     sudokuBoard.getBoard().get(8).getElements().get(5).setValue(7);
     sudokuBoard.getBoard().get(8).getElements().get(7).setValue(6);
 
-    //System.out.println(sudokuBoard);
+    System.out.println(sudokuBoard);
 
-    sudokuGame.sudokuSolver(sudokuBoard);
+    boolean result = sudokuGame.sudokuSolver(sudokuBoard, 0, 0);
 
     //Then
-
+        assertThat(result).isTrue();
 
     }
 }

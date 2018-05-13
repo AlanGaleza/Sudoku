@@ -32,7 +32,7 @@ public class SudokuBoard implements Cloneable{
         SudokuBoard clonedBoard = (SudokuBoard)super.clone();
         clonedBoard.board = board.stream()
                 .map(row -> new SudokuRow(row.getElements().stream()
-                        .map(element -> new SudokuElement())
+                        .map(element -> new SudokuElement(element.getValue()))
                         .collect(Collectors.toList())))
                 .collect(Collectors.toList());
 
