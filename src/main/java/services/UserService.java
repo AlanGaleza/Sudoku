@@ -32,7 +32,7 @@ public class UserService {
         return true;
     }
 
-    private boolean insertionHandler() {
+    private void insertionHandler() {
         while (isInput) {
             Scanner reader = new Scanner(System.in);
             System.out.println("Input values: ");
@@ -55,18 +55,17 @@ public class UserService {
                     System.out.println("Done.");
                     mainCommunicator();
                     isInput = false;
-                    return true;
+                    break;
                 case ("y"):
                     isInput = true;
                     break;
                 default:
                     System.out.println("Done.");
                     isInput = false;
-                    return true;
+                    break;
             }
         }
-        return true;
-    }
+     }
 
     private void mainCommunicator() {
         Scanner reader = new Scanner(System.in);
