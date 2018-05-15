@@ -13,7 +13,7 @@ public class DataValidator {
         this.sudokuGame = sudokuGame;
     }
 
-    public boolean validateUserInput (String userInput) {
+    protected boolean validateUserInput (String userInput) {
         inputList = new ArrayList<>(Arrays.asList(userInput.split(","))).stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class DataValidator {
         return inputList;
     }
 
-    public boolean isPossible() {
+    protected boolean isPossible() {
         List<Integer> possibleValues = sudokuGame.getAllPossibleValues(getInputList().get(0)-1, getInputList().get(1)-1, sudokuGame.sudokuBoard);
         return possibleValues.stream().anyMatch(n -> n.equals(inputList.get(2)));
     }

@@ -21,7 +21,6 @@ public class UserService {
         String userInput = reader.nextLine();
         switch (userInput.toLowerCase()) {
             case ("n"): insertionHandler(); break;
-            case ("y"): insertionHandler(); break;
             case ("q"):
                 System.out.println("GooD Day");
                 return false;
@@ -33,7 +32,7 @@ public class UserService {
         return true;
     }
 
-    public boolean insertionHandler() {
+    private boolean insertionHandler() {
         while (isInput) {
             Scanner reader = new Scanner(System.in);
             System.out.println("Input values: ");
@@ -69,7 +68,7 @@ public class UserService {
         return true;
     }
 
-    public void mainCommunicator() {
+    private void mainCommunicator() {
         Scanner reader = new Scanner(System.in);
         System.out.println("What you want to do? New game|Solve Sudoku|Quit|. N/S/Q");
         String userInput = reader.nextLine();

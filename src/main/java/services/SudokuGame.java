@@ -21,7 +21,7 @@ public class SudokuGame {
         this.sudokuBoard = sudokuBoard;
     }
 
-    public List<Integer> getPossibleInSquareValue(int row, int column, SudokuBoard sudokuBoard) {
+    private List<Integer> getPossibleInSquareValue(int row, int column, SudokuBoard sudokuBoard) {
         List<Integer> possibleValues = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
         for(int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
@@ -34,7 +34,7 @@ public class SudokuGame {
         return new ArrayList<>(possibleValues);
     }
 
-    public List<Integer> getPossibleRowValues(int row, SudokuBoard sudokuBoard) {
+    private List<Integer> getPossibleRowValues(int row, SudokuBoard sudokuBoard) {
         List<Integer> possibleRowValues = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
         for (int c = 0; c < 9; c++) {
             int value = sudokuBoard.getBoard().get(row).getElements().get(c).getValue();
@@ -45,7 +45,7 @@ public class SudokuGame {
         return new ArrayList<>(possibleRowValues);
     }
 
-    public List<Integer> getPossibleColumnValues(int column, SudokuBoard sudokuBoard) {
+    private List<Integer> getPossibleColumnValues(int column, SudokuBoard sudokuBoard) {
         List<Integer> possibleColumnValues = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
         for (int r = 0; r < 9; r++) {
             int value = sudokuBoard.getBoard().get(r).getElements().get(column).getValue();
