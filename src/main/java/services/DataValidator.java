@@ -1,42 +1,50 @@
 package services;
 
-import model.SudokuBoard;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataValidator {
-    SudokuBoard sudokuBoard =  new SudokuBoard();
+    private List<Integer> inputList;
+    private SudokuGame sudokuGame;
 
+    public DataValidator(SudokuGame sudokuGame) {
+        this.sudokuGame = sudokuGame;
+    }
 
-    public boolean validateUserInput (String userInput) throws NumberFormatException{
-        int[] inputList;
-        try {
-            inputList = Arrays.stream(userInput.split(","))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-        } catch (NumberFormatException e){
-            System.out.println("Bad input, check inputted values and separator");
+    public boolean validateUserInput (String userInput) {
+        inputList = new ArrayList<>(Arrays.asList(userInput.split(","))).stream()
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+
+        if (inputList.size() > 3) {
             return false;
         }
 
-        if (inputList.length > 5) {
+        if (inputList.get(0) > 9 || inputList.get(0) < 1) {
+            System.out.println("Bad input at row position: " + inputList.get(0));
+            return false;
+
+        } else if (inputList.get(1)> 9 || inputList.get(1) < 1) {
+            System.out.println("Bad input at column position: " + inputList.get(1));
+            return false;
+
+        } else if (inputList.get(2) > 9 || inputList.get(2) < 1) {
+            System.out.println("Bad input value position: " + inputList.get(2));
             return false;
         }
-
-        if (inputList[0] > 9 || inputList[0] < 1) {
-            System.out.println("Bad input at row position: " + inputList[0]);
-            return false;
-
-        } else if (inputList[1] > 9 || inputList[1] < 1) {
-            System.out.println("Bad input at column position: " + inputList[1]);
-            return false;
-
-        } else if (inputList[2] > 9 || inputList[2] < 1) {
-            System.out.println("Bad input at column position: " + inputList[2]);
-            return false;
-        }
+        System.out.println("Your input is: row: " + inputList.get(0) + ", column: " + inputList.get(1) + ", value: " + inputList.get(2));
         return true;
     }
 
+    public List<Integer> getInputList() {
+        return inputList;
+    }
+
+    public boolean isPossible() {
+        List<Integer> possibleValues = sudokuGame.getAllPossibleValues(getInputList().get(0)-1, getInputList().get(1)-1, sudokuGame.sudokuBoard);
+        return possibleValues.stream().anyMatch(n -> n.equals(inputList.get(2)));
+    }
 }
 

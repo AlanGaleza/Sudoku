@@ -13,6 +13,10 @@ public class SudokuGame {
 
     }
 
+    public SudokuBoard getSudokuBoard() {
+        return sudokuBoard;
+    }
+
     public SudokuGame(SudokuBoard sudokuBoard) {
         this.sudokuBoard = sudokuBoard;
     }
@@ -64,7 +68,7 @@ public class SudokuGame {
         if (r == 9) {
             r = 0;
             if (++c == 9) {
-                System.out.println(sudokuBoard);
+                //System.out.println(sudokuBoard);
                 return true;
             }
         }

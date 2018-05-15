@@ -1,22 +1,14 @@
-import model.SudokuBoard;
-import services.DataValidator;
-//import services.SudokuGame;
+import services.UserService;
 
 public class SudokuRunner {
     public static void main(String args[]) {
         boolean isGameFinished = false;
-        SudokuBoard sudokuBoard = new SudokuBoard();
-        DataValidator dataValidator = new DataValidator();
+        UserService userService = new UserService();
 
-/*        while(!isGameFinished) {
-            SudokuGame theGame = new SudokuGame(dataValidator, sudokuBoard);
-
-
-            //isGameFinished = theGame.resolveSudoku();
-        }*/
-
-        while (!isGameFinished) {
-            isGameFinished = true;
+        while(!isGameFinished) {
+            if(!userService.introducer()) {
+                isGameFinished = true;
+            }
         }
     }
 }

@@ -124,7 +124,8 @@ public class SudokuTestSuite {
     SudokuGame sudokuGame = new SudokuGame();
 
     //When
-    sudokuBoard.getBoard().get(0).getElements().get(1).setValue(2);
+        sudokuBoard.getBoard().get(0).getElements().get(0).setValue(1);
+    /*sudokuBoard.getBoard().get(0).getElements().get(1).setValue(2);
     sudokuBoard.getBoard().get(0).getElements().get(3).setValue(5);
     sudokuBoard.getBoard().get(0).getElements().get(5).setValue(1);
     sudokuBoard.getBoard().get(0).getElements().get(7).setValue(9);
@@ -161,11 +162,15 @@ public class SudokuTestSuite {
     sudokuBoard.getBoard().get(8).getElements().get(1).setValue(1);
     sudokuBoard.getBoard().get(8).getElements().get(3).setValue(9);
     sudokuBoard.getBoard().get(8).getElements().get(5).setValue(7);
-    sudokuBoard.getBoard().get(8).getElements().get(7).setValue(6);
+    sudokuBoard.getBoard().get(8).getElements().get(7).setValue(6);*/
 
     System.out.println(sudokuBoard);
 
+    long start = System.currentTimeMillis();
     boolean result = sudokuGame.sudokuSolver(sudokuBoard, 0, 0);
+    long elapsedTime = System.currentTimeMillis() - start;
+    System.out.println(sudokuBoard);
+    System.out.println(elapsedTime + "ms");
 
     //Then
         assertThat(result).isTrue();
